@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORM = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
@@ -13,8 +13,8 @@ public class SalaryInfo {
     private static final int TOKENS_COUNT = 4;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        LocalDate from = LocalDate.parse(dateFrom, DATE_FORMATTER);
-        LocalDate to = LocalDate.parse(dateTo, DATE_FORMATTER);
+        LocalDate from = LocalDate.parse(dateFrom, DATE_FORM);
+        LocalDate to = LocalDate.parse(dateTo, DATE_FORM);
 
         int[] salaries = new int[names.length];
 
@@ -26,7 +26,7 @@ public class SalaryInfo {
                 continue;
             }
 
-            LocalDate date = LocalDate.parse(parts[DATE_INDEX], DATE_FORMATTER);
+            LocalDate date = LocalDate.parse(parts[DATE_INDEX], DATE_FORM);
             if (!date.isBefore(from) && !date.isAfter(to)) {
                 String name = parts[NAME_INDEX];
                 int hours = Integer.parseInt(parts[HOURS_INDEX]);
