@@ -29,17 +29,17 @@ public class SalaryInfo {
             }
         }
 
-        StringBuilder r = new StringBuilder();
+        StringBuilder result = new StringBuilder();
 
-        r.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
         for (int i = 0; i < names.length; i++) {
-            r.append(System.lineSeparator())
+            result.append(System.lineSeparator())
                     .append(names[i])
                     .append(" - ")
                     .append(salaries[i]);
         }
 
-        return r.toString();
+        return result.toString();
     }
 }
