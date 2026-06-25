@@ -4,20 +4,33 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int RATE_INDEX = 3;
+    private static final int TOKENS_COUNT = 4;
+
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate from = LocalDate.parse(dateFrom, formatter);
-        LocalDate to = LocalDate.parse(dateTo, formatter);
+        LocalDate from = LocalDate.parse(dateFrom, DATE_FORMATTER);
+        LocalDate to = LocalDate.parse(dateTo, DATE_FORMATTER);
 
         int[] salaries = new int[names.length];
 
         for (String record : data) {
-            String[] parts = record.split(" ");
-            LocalDate date = LocalDate.parse(parts[0], formatter);
+
+            String[] parts = record.split("\\s+");
+
+            if (parts.length != TOKENS_COUNT) {
+                continue;
+            }
+
+            LocalDate date = LocalDate.parse(parts[DATE_INDEX], DATE_FORMATTER);
             if (!date.isBefore(from) && !date.isAfter(to)) {
-                String name = parts[1];
-                int hours = Integer.parseInt(parts[2]);
-                int rate = Integer.parseInt(parts[3]);
+                String name = parts[NAME_INDEX];
+                int hours = Integer.parseInt(parts[HOURS_INDEX]);
+                int rate = Integer.parseInt(parts[RATE_INDEX]);
                 int salary = hours * rate;
 
                 for (int i = 0; i < names.length; i++) {
@@ -29,17 +42,16 @@ public class SalaryInfo {
             }
         }
 
-        StringBuilder result = new StringBuilder();
-
-        result.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
+        StringBuilder reportBuilder = new StringBuilder();
+        reportBuilder.append("Report for period ").append(dateFrom).append(" - ").append(dateTo);
 
         for (int i = 0; i < names.length; i++) {
-            result.append(System.lineSeparator())
+            reportBuilder.append(System.lineSeparator())
                     .append(names[i])
                     .append(" - ")
                     .append(salaries[i]);
         }
 
-        return result.toString();
+        return reportBuilder.toString();
     }
 }
